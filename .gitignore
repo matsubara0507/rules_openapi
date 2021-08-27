@@ -1,0 +1,5 @@
+# bazel
+bazel-bin
+bazel-out
+bazel-rules_openapi
+bazel-testlogs
