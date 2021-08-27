@@ -1,0 +1,8 @@
+load("@rules_openapi//openapi:def.bzl", "openapi_generate")
+
+openapi_generate(
+    name = "elm-api",
+    out = "elm",
+    spec = "petstore.yaml",
+    generator = "elm",
+)
