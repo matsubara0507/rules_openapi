@@ -5,4 +5,5 @@ openapi_generate(
     out = "elm",
     spec = "petstore.yaml",
     generator = "elm",
+    template_dir = "//example/templates/elm:templates",
 )

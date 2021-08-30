@@ -11,7 +11,8 @@ def _openapi_generate_impl(ctx):
     ]
 
     if ctx.attr.template_dir:
-        arguments += ["-t", ctx.attr.template_dir]
+        arguments += ["-t", ctx.attr.template_dir.label.package]
+        inputs += ctx.files.template_dir
 
     java_home = ctx.attr.java_runtime[java_common.JavaRuntimeInfo].java_home
     ctx.actions.run_shell(
@@ -33,7 +34,7 @@ openapi_generate = rule(
         ),
         "out": attr.output(mandatory = True),
         "deps": attr.label_list(
-            doc = "Dependency files (e.g. extra specs, templetes)",
+            doc = "Dependency files (e.g. extra specs)",
             allow_files = True,
         ),
         "generator": attr.string(mandatory = True),
