@@ -33,7 +33,8 @@ openapi_generate = rule(
         ),
         "out": attr.output(mandatory = True),
         "deps": attr.label_list(
-            doc = "Dependency files (e.g. extra specs, templetes)"
+            doc = "Dependency files (e.g. extra specs, templetes)",
+            allow_files = True,
         ),
         "generator": attr.string(mandatory = True),
         "template_dir": attr.label(),
