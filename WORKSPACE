@@ -2,4 +2,4 @@ workspace(name = "rules_openapi")
 
 load("@rules_openapi//openapi:toolchain.bzl", rules_openapi_toolchains = "toolchains")
 
-rules_openapi_toolchains(version = "5.2.1")
+rules_openapi_toolchains()
