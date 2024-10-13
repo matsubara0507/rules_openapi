@@ -15,7 +15,7 @@ git_repository(
 
 load("@rules_openapi//openapi:toolchain.bzl", rules_openapi_toolchains = "toolchains")
 
-rules_openapi_toolchains(version = "7.0.1")
+rules_openapi_toolchains(version = "7.9.0")
 ```
 
 BUILD is please see examples.
