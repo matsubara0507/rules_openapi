@@ -1,13 +1,14 @@
 def _openapi_generate_impl(ctx):
     openapi_generator = ctx.toolchains["@rules_openapi//openapi:toolchain"].openapi_generator_cli
     inputs = [openapi_generator, ctx.file.spec] + ctx.files.deps + ctx.files.java_runtime
+    out_dir = ctx.actions.declare_directory(ctx.attr.out)
 
     arguments = [
         "-jar", openapi_generator.path, 
         "generate",
         "-i", ctx.file.spec.path,
         "-g", ctx.attr.generator, 
-        "-o", ctx.outputs.out.path,
+        "-o", out_dir.path,
     ]
 
     if ctx.attr.template_dir:
@@ -18,8 +19,9 @@ def _openapi_generate_impl(ctx):
     ctx.actions.run_shell(
         command = "{path}/bin/java {args} 1>/dev/null".format(path = java_home, args = " ".join(arguments)),
         inputs = inputs,
-        outputs = [ctx.outputs.out],
+        outputs = [out_dir],
     )
+    return [DefaultInfo(files = depset([out_dir]))]
 
 openapi_generate = rule(
     _openapi_generate_impl,
@@ -32,7 +34,7 @@ openapi_generate = rule(
             ],
             doc = "OpenAPI spec file",
         ),
-        "out": attr.output(mandatory = True),
+        "out": attr.string(mandatory = True),
         "deps": attr.label_list(
             doc = "Dependency files (e.g. extra specs)",
             allow_files = True,
