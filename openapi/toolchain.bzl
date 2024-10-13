@@ -1,7 +1,16 @@
-_DEFAULT_VERSION = "7.0.1"
+_DEFAULT_VERSION = "7.9.0"
 
 _OPENAPI_GENERATOR_CLI_JAR_BINDIST = \
     {
+        "7.9.0": "f0cb7839a2ead9040b204519b03f1473b39c7725fd1f43134bb550515cb3dbee",
+        "7.8.0": "d1879cf42da31f8cf61cf68798b8ef2418af0c6bd93a5c1870e1ff543fbb9365",
+        "7.7.0": "3a757276c31d249a4f06a14651b1ff1f1a5cf46e110a70adcc4a6a2834f85561",
+        "7.6.0": "35074bdd3cdfc46be9a902e11a54a3faa3cae1e34eb66cbd959d1c8070bbd7d7",
+        "7.5.0": "47ebbd1beddaf7dfbee523e7b87623c6ec1b1d42960fbe15f6cad2f6426c69bf",
+        "7.4.0": "e42769a98fef5634bee0f921e4b90786a6b3292aa11fe8d2f84c045ac435ab29",
+        "7.3.0": "879c15340a75a19a7e720efc242c3223e0e4207b0694d6d1cea5c7dd87cf1cce",
+        "7.2.0": "1cf0c80de12c0fdc8594289c19e414b402108ef10b8dd0bfda1953151341ab5d",
+        "7.1.0": "85fab7a4d80a9e1e65c5824bcd375c39ad294af07490609529c8e78a7bda673a",
         "7.0.1": "01387c73905de47a6ecf8801f91c8d61624f8a1e890c8058225df51d493bc32a",
         "6.6.0": "9718ff7844e89462c75dcd9b20a35136f6db257bfe1b874db1e3002e99de4609",
         "5.4.0": "f3ed312310e390324b33ba2ffff290ce812935207a1493ec5c098d0a441be51c",
