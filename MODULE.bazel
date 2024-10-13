@@ -1,0 +1,10 @@
+module(
+    name = "rules_openapi",
+    version = "1.0.0",
+)
+
+openapi = use_extension("@rules_openapi//openapi:extensions.bzl", "openapi")
+openapi.toolchain()
+use_repo(openapi, "openapi_generator_toolchains")
+
+register_toolchains("@openapi_generator_toolchains//:all")

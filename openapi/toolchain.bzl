@@ -1,4 +1,6 @@
-_DEFAULT_VERSION = "7.9.0"
+DEFAULT_OPENAPI_REPOSITORY = "openapi_generator"
+
+DEFAULT_VERSION = "7.9.0"
 
 _OPENAPI_GENERATOR_CLI_JAR_BINDIST = \
     {
@@ -39,14 +41,8 @@ load("@rules_openapi//openapi:toolchain.bzl", "openapi_toolchain")
 exports_files(["{file_name}"])
 
 openapi_toolchain(
-    name = "openapi-generator-cli_info",
-    openapi_generator_cli = ":{file_name}",
-)
-
-toolchain(
     name = "toolchain",
-    toolchain_type = "@rules_openapi//openapi:toolchain",
-    toolchain = ":openapi-generator-cli_info",
+    openapi_generator_cli = ":{file_name}",
 )
         """.format(file_name = file_name),
     )
@@ -60,14 +56,34 @@ openapi_generator_cli_jar = repository_rule(
     },
 )
 
-def toolchains(version = _DEFAULT_VERSION):
+def _openapi_toolchains_repo_impl(ctx):
+    build_context = """
+toolchain(
+    name = "toolchain",
+    toolchain_type = "@rules_openapi//openapi:toolchain",
+    toolchain = "@{repo_name}//:toolchain",
+)
+    """.format(repo_name = ctx.attr.repo_name)
+    ctx.file("BUILD", content = build_context)
+
+
+openapi_toolchains_repo = repository_rule(
+    _openapi_toolchains_repo_impl,
+    attrs = {
+        "repo_name": attr.string(),
+    },
+)
+
+def toolchains(name = DEFAULT_OPENAPI_REPOSITORY, version = DEFAULT_VERSION, register = True):
     if not _OPENAPI_GENERATOR_CLI_JAR_BINDIST.get(version):
         fail("JAR distribution of openapi-generetor-cli {} is not available.".format(version))
 
     checksum = _OPENAPI_GENERATOR_CLI_JAR_BINDIST.get(version)
-    name = "openapi-generator-cli-toolchain"
     openapi_generator_cli_jar(name = name, version = version, checksum = checksum)
-    native.register_toolchains("@{}//:toolchain".format(name))
+    if register:
+        native.register_toolchains("@{}_toolchains//:toolchain".format(name))
+
+    openapi_toolchains_repo(name = name + "_toolchains", repo_name = name)
 
 def _openapi_toolchain_impl(ctx):
     return [platform_common.ToolchainInfo(

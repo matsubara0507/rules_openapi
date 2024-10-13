@@ -14,12 +14,22 @@ jobs:
           - ubuntu-latest
           - macos-latest
           - windows-latest
+        bazel:
+          - {version: 7.3.1, options: "--noenable_bzlmod --enable_workspace"}
+          - {version: 7.3.1, options: "--enable_bzlmod --noenable_workspace"}
+          - {version: 6.5.0, options: "--noenable_bzlmod"}
+          - {version: 6.5.0, options: "--enable_bzlmod"}
       fail-fast: false
     steps:
     - name: Checkout
       uses: actions/checkout@v4
 
+    - name: Overwrite .bazelversion
+      run: |
+        echo ${{ matrix.bazel.version }} > .bazelversion
+        bazelisk --version
+
     - name: run bazel example (Elm)
       run: |
-        bazelisk build //example:elm-api
+        bazelisk build ${{ matrix.bazel.options }} //example:elm-api
         diff -r bazel-bin/example/elm example/elm
